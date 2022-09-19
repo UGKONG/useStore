@@ -1,17 +1,21 @@
-import create from "zustand";
+import { createStore } from "redux";
 
-interface InitialState {
-  [key: string]: any;
-}
-
-const initialState: InitialState = {
-  number: 0,
+type CurrentState = {
+  num: number;
+  name: string;
+};
+type Action = {
+  type: string;
+  payload: any;
 };
 
-export const useStore = create<InitialState>((set) => ({
-  ...initialState,
-  dispatch: (type: string, payload: any): any => {
-    set((state) => (state[type] = payload));
-    return payload;
-  },
-}));
+const currentState: CurrentState = {
+  num: 0,
+  name: "jsw",
+};
+
+const reducer = (state: CurrentState = currentState, action: Action) => {
+  return { ...state, [action?.type]: action?.payload };
+};
+
+export default createStore(reducer);
